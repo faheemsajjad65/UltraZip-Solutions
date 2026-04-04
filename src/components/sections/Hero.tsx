@@ -35,7 +35,7 @@ export default function Hero() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Materials</span>
               </h1>
               <p className="text-xl text-slate-400 mb-12 max-w-xl leading-relaxed font-medium">
-                Engineered for durability, consistency, and scale. We supply the high-performance foundations for the world's most reliable zippers.
+                Engineered for durability, consistency, and scale. We supply the precision materials for the world's most reliable zippers.
               </p>
               
               <div className="flex flex-wrap gap-6 mb-16">

@@ -11,8 +11,8 @@ export default function Home() {
     <div className="bg-white">
       <SEO 
         title="Precision Zipper Raw Materials" 
-        description="Global B2B supplier of high-tenacity polyester yarn, nylon coils, and precision zipper components. ISO 9001 certified manufacturing."
-        keywords="zipper raw materials, B2B manufacturing, polyester yarn, zipper tape, nylon coil, garment industry supply"
+        description="Global B2B supplier of precision zipper materials including pin boxes, sliders, tape, and nylon coils. ISO 9001 certified manufacturing."
+        keywords="zipper materials, pin box, zipper sliders, zipper tape, nylon coil, B2B manufacturing, garment industry supply"
       />
       {/* Hero is handled in App.tsx layout or directly here */}
       
@@ -47,7 +47,7 @@ export default function Home() {
                 Engineered for <span className="text-blue-600">Excellence</span>
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed">
-                We provide the high-tenacity foundations that global manufacturers trust for their most demanding zipper applications.
+                We provide the precision-engineered materials that global manufacturers trust for their most demanding zipper applications.
               </p>
             </div>
             <Link to="/products" className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10">
@@ -111,7 +111,7 @@ export default function Home() {
                 <span className="text-blue-500">Uncompromising</span> Reliability.
               </h3>
               <p className="text-xl text-slate-400 mb-12 leading-relaxed font-medium">
-                We don't just supply materials; we provide the high-tenacity foundation for your brand's reputation. Our manufacturing processes are optimized for global scale and precision.
+                We don't just supply materials; we provide the precision-engineered foundation for your brand's reputation. Our manufacturing processes are optimized for global scale and precision.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">

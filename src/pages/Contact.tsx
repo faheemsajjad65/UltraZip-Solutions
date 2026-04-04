@@ -38,7 +38,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-slate-500 uppercase tracking-widest font-bold">Sales Hotline</div>
-                    <div className="text-lg font-bold text-slate-900">+86 (21) 5555-0123</div>
+                    <div className="text-lg font-bold text-slate-900">+92-324-420-6406</div>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -47,7 +47,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-slate-500 uppercase tracking-widest font-bold">Email Inquiries</div>
-                    <div className="text-lg font-bold text-slate-900">sales@ultrazipsolutions.com</div>
+                    <div className="text-lg font-bold text-slate-900">faheemsajjad65@gmail.com</div>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -56,7 +56,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-sm text-slate-500 uppercase tracking-widest font-bold">WhatsApp Business</div>
-                    <div className="text-lg font-bold text-slate-900">+86 138 0000 0000</div>
+                    <div className="text-lg font-bold text-slate-900">+92-324-420-6406</div>
                   </div>
                 </div>
               </div>
@@ -81,15 +81,10 @@ export default function Contact() {
             </div>
 
             <div className="bg-slate-900 p-8 rounded-3xl text-white">
-              <h4 className="font-bold mb-4">Global Headquarters</h4>
+              <h4 className="font-bold mb-4">Global Supply Chain</h4>
               <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                123 Industrial Zone, Tech Park,<br />
-                Pudong District, Shanghai,<br />
-                China 200000
+                Our manufacturing and distribution network is optimized for the global zipper industry, ensuring just-in-time delivery for your production lines.
               </p>
-              <div className="h-48 bg-slate-800 rounded-2xl flex items-center justify-center text-slate-600 font-bold border border-white/5">
-                [ Interactive Map Placeholder ]
-              </div>
             </div>
           </div>
 

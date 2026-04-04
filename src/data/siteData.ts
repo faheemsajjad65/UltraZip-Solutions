@@ -13,89 +13,58 @@ export interface Product {
 
 export const PRODUCTS: Product[] = [
   {
-    id: "polyester-yarn",
-    name: "High-Tenacity Polyester Yarn",
-    category: "Polyester Yarn",
-    shortDescription: "Industrial-grade yarn optimized for zipper tape weaving and durability.",
-    fullDescription: "Our high-tenacity polyester yarn is specifically engineered for the zipper industry. It offers superior tensile strength, minimal shrinkage, and excellent dye affinity, ensuring your zipper tapes are both strong and aesthetically consistent.",
+    id: "zipper-sliders",
+    name: "Precision Zipper Sliders",
+    category: "Sliders",
+    shortDescription: "High-quality zinc alloy and brass sliders with various lock mechanisms.",
+    fullDescription: "Our zipper sliders are engineered for smooth operation and durability. Available in auto-lock, non-lock, and reversible types, with finishes ranging from shiny gold to matte black. Each slider undergoes rigorous pull-strength testing.",
     specs: {
-      "Denier Range": "150D - 600D",
-      "Tenacity": "> 7.5 g/d",
-      "Shrinkage": "< 2% at 180°C",
-      "Elongation": "15% - 20%",
-      "Twist": "S/Z Twist available"
+      "Material": "Zinc Alloy / Brass",
+      "Lock Type": "Auto-lock, Non-lock, Pin-lock",
+      "Finishes": "Shiny Gold, Nickel, Gunmetal, Antique Brass",
+      "Sizes": "#3, #5, #8, #10"
     },
     benefits: [
-      "Exceptional tensile strength",
-      "Consistent dye absorption",
-      "Heat stabilized for low shrinkage",
-      "Abrasion resistant"
-    ],
-    useCases: [
-      "Zipper tape weaving",
-      "Reinforcement threads",
-      "Industrial textiles"
-    ],
-    variants: [
-      "Raw White",
-      "Dope Dyed (Black/Colors)",
-      "Semi-Dull",
-      "Bright"
-    ],
-    image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: "nylon-monofilament",
-    name: "Nylon Coil Monofilament",
-    category: "Nylon Coil",
-    shortDescription: "Precision-extruded monofilament for high-speed coil forming.",
-    fullDescription: "Designed for seamless integration with high-speed coil forming machines, our nylon monofilament provides the perfect balance of flexibility and rigidity. It ensures consistent tooth shape and smooth slider operation.",
-    specs: {
-      "Diameter": "0.40mm - 1.20mm",
-      "Material": "Polyamide 6 / 66",
-      "Melting Point": "220°C - 255°C",
-      "Tolerance": "± 0.01mm"
-    },
-    benefits: [
-      "High dimensional stability",
-      "Smooth surface finish",
-      "Excellent recovery properties",
-      "Uniform diameter"
-    ],
-    useCases: [
-      "Nylon coil zippers (#3, #5, #8, #10)",
-      "Invisible zippers",
-      "Spiral zippers"
-    ],
-    variants: [
-      "Transparent",
-      "Opaque Colors",
-      "Fluorescent"
-    ],
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    id: "zipper-tape",
-    name: "Woven & Knitted Zipper Tape",
-    category: "Zipper Tape",
-    shortDescription: "Premium base tapes for metal, plastic, and nylon zippers.",
-    fullDescription: "Our zipper tapes are manufactured using advanced looms to ensure straightness and edge stability. Available in various widths and weaves to suit different zipper types and application requirements.",
-    specs: {
-      "Width": "10mm - 40mm",
-      "Material": "100% Polyester",
-      "Weave Type": "Twill, Plain, Herringbone",
-      "Color Fastness": "Grade 4+"
-    },
-    benefits: [
-      "No edge fraying",
-      "Excellent lateral strength",
-      "Standardized widths",
-      "Soft touch options"
+      "Smooth gliding operation",
+      "Corrosion-resistant finishes",
+      "High lateral strength",
+      "Custom logo engraving available"
     ],
     useCases: [
       "Garment zippers",
-      "Bag & Luggage zippers",
-      "Home textiles"
+      "Luggage & Bag zippers",
+      "Outdoor gear"
+    ],
+    variants: [
+      "Standard Puller",
+      "Decorative Puller",
+      "Reversible Slider",
+      "Invisible Slider"
+    ],
+    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "zipper-tape",
+    name: "High-Tenacity Zipper Tape",
+    category: "Tape",
+    shortDescription: "Industrial-grade polyester tape optimized for zipper chain assembly.",
+    fullDescription: "Our zipper tapes are woven or knitted using high-tenacity polyester yarn to ensure minimal shrinkage and maximum edge stability. Designed to withstand high-speed sewing and industrial laundering.",
+    specs: {
+      "Material": "100% High-Tenacity Polyester",
+      "Width": "12mm - 42mm",
+      "Weave": "Twill, Plain, Herringbone",
+      "Shrinkage": "< 1.5% at 180°C"
+    },
+    benefits: [
+      "Excellent dimensional stability",
+      "Consistent dye affinity",
+      "Abrasion resistant",
+      "No edge fraying"
+    ],
+    useCases: [
+      "Coil zipper assembly",
+      "Metal zipper assembly",
+      "Plastic molded zipper assembly"
     ],
     variants: [
       "Standard Woven",
@@ -106,33 +75,65 @@ export const PRODUCTS: Product[] = [
     image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=800"
   },
   {
-    id: "metal-components",
-    name: "Precision Metal Teeth & Sliders",
-    category: "Metal Components",
-    shortDescription: "High-quality brass, aluminum, and zinc components.",
-    fullDescription: "We provide the essential metal elements for high-end zippers. From precision-cut teeth to smooth-operating sliders, our metal components are finished to resist corrosion and maintain their luster.",
+    id: "pin-box-components",
+    name: "Zipper Pin & Box Sets",
+    category: "Components",
+    shortDescription: "Precision-engineered pin and box sets for open-end zippers.",
+    fullDescription: "Essential components for creating high-quality open-end zippers. Our pin and box sets are designed for perfect alignment and secure locking, ensuring the zipper functions reliably every time.",
     specs: {
-      "Materials": "Brass, Aluminum, Zinc Alloy",
-      "Finishes": "Shiny Gold, Antique Brass, Gunmetal, Nickel",
-      "Slider Types": "Auto-lock, Non-lock, Reversible"
+      "Material": "Zinc Alloy / Brass / Aluminum",
+      "Compatibility": "#3, #5, #8, #10 Zippers",
+      "Attachment": "Ultrasonic or Mechanical",
+      "Coating": "Nickel-free, Lead-free"
     },
     benefits: [
-      "Corrosion resistant",
-      "Smooth slider movement",
-      "High pull strength",
-      "Luxury aesthetic"
+      "Perfect alignment",
+      "Secure locking mechanism",
+      "Easy insertion",
+      "Durable construction"
     ],
     useCases: [
-      "Leather jackets",
-      "Luxury handbags",
-      "Denim wear"
+      "Jackets & Outerwear",
+      "Detachable bags",
+      "Sleeping bags"
     ],
     variants: [
-      "Y-Teeth",
-      "Standard Teeth",
-      "Custom Logo Sliders"
+      "Standard Pin/Box",
+      "Square Box",
+      "Double-sided Pin",
+      "Top Stops"
     ],
-    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    id: "nylon-coil-raw",
+    name: "Nylon Coil Monofilament",
+    category: "Coil",
+    shortDescription: "Raw monofilament for high-speed zipper coil forming.",
+    fullDescription: "Pure nylon monofilament specifically extruded for the production of zipper coils. It offers the ideal balance of flexibility for forming and rigidity for tooth strength.",
+    specs: {
+      "Diameter": "0.48mm - 1.05mm",
+      "Material": "Polyamide 6 / 66",
+      "Melting Point": "220°C - 255°C",
+      "Tolerance": "± 0.01mm"
+    },
+    benefits: [
+      "Uniform diameter",
+      "High recovery properties",
+      "Smooth surface finish",
+      "Optimized for high-speed machines"
+    ],
+    useCases: [
+      "Coil zipper manufacturing",
+      "Invisible zipper production",
+      "Spiral chain forming"
+    ],
+    variants: [
+      "Transparent",
+      "Dope-Dyed Black",
+      "Fluorescent"
+    ],
+    image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=800"
   }
 ];
 
@@ -141,21 +142,21 @@ export const INDUSTRIES = [
     id: "apparel",
     name: "Apparel & Fashion",
     description: "From high-street fashion to everyday wear, we provide materials that balance aesthetics with durability.",
-    materials: ["Polyester Yarn", "Nylon Coil", "Metal Components"],
+    materials: ["Zipper Tape", "Nylon Coil", "Zipper Sliders"],
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800"
   },
   {
     id: "luggage",
     name: "Luggage & Bags",
     description: "Heavy-duty materials designed to withstand the rigors of travel and high-stress applications.",
-    materials: ["Heavy-duty Tape", "Large Gauge Coils", "Zinc Sliders"],
+    materials: ["Zipper Tape", "Nylon Coil", "Zipper Sliders"],
     image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=800"
   },
   {
     id: "outdoor",
     name: "Outdoor & Sporting Goods",
     description: "Weather-resistant and high-performance materials for tents, backpacks, and gear.",
-    materials: ["Waterproof Tape", "UV Resistant Yarn", "Plastic Elements"],
+    materials: ["Zipper Tape", "Nylon Coil", "Pin & Box Sets"],
     image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&q=80&w=800"
   }
 ];

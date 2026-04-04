@@ -104,10 +104,10 @@ export default function InquiryForm({ compact, productName, initialType }: Inqui
             className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-medium appearance-none cursor-pointer"
           >
             <option value="" disabled>Select a product</option>
-            <option value="Polyester Yarn">Polyester Yarn</option>
-            <option value="Nylon Monofilament">Nylon Monofilament</option>
-            <option value="Zipper Tape">Zipper Tape</option>
-            <option value="Metal Components">Metal Components</option>
+            <option value="Precision Zipper Sliders">Precision Zipper Sliders</option>
+            <option value="High-Tenacity Zipper Tape">High-Tenacity Zipper Tape</option>
+            <option value="Zipper Pin & Box Sets">Zipper Pin & Box Sets</option>
+            <option value="Nylon Coil Monofilament">Nylon Coil Monofilament</option>
             <option value="Custom Solution">Custom Solution</option>
           </select>
         </div>

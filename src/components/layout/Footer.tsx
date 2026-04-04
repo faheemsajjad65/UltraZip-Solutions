@@ -45,29 +45,29 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold mb-6 text-lg">Key Products</h4>
             <ul className="space-y-4">
-              <li><Link to="/products/polyester-yarn" className="hover:text-blue-500 transition-colors">Polyester Yarn</Link></li>
-              <li><Link to="/products/nylon-monofilament" className="hover:text-blue-500 transition-colors">Nylon Monofilament</Link></li>
+              <li><Link to="/products/zipper-sliders" className="hover:text-blue-500 transition-colors">Zipper Sliders</Link></li>
               <li><Link to="/products/zipper-tape" className="hover:text-blue-500 transition-colors">Zipper Tape</Link></li>
-              <li><Link to="/products/metal-components" className="hover:text-blue-500 transition-colors">Metal Components</Link></li>
+              <li><Link to="/products/pin-box-components" className="hover:text-blue-500 transition-colors">Pin & Box Sets</Link></li>
+              <li><Link to="/products/nylon-coil-raw" className="hover:text-blue-500 transition-colors">Nylon Coil</Link></li>
               <li><Link to="/products" className="hover:text-blue-500 transition-colors">Custom Materials</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-bold mb-6 text-lg">Global HQ</h4>
+            <h4 className="text-white font-bold mb-6 text-lg">Contact Us</h4>
             <ul className="space-y-4">
               <li className="flex gap-3">
                 <MapPin className="w-6 h-6 text-blue-500 shrink-0" />
-                <span>123 Industrial Zone, Tech Park,<br />Shanghai, China 200000</span>
+                <span>Global Supply Chain Partner<br />Serving Worldwide Manufacturers</span>
               </li>
               <li className="flex gap-3 items-center">
                 <Phone className="w-5 h-5 text-blue-500 shrink-0" />
-                <span>+86 (21) 5555-0123</span>
+                <span>+92-324-420-6406</span>
               </li>
               <li className="flex gap-3 items-center">
                 <Mail className="w-5 h-5 text-blue-500 shrink-0" />
-                <span>sales@ultrazipsolutions.com</span>
+                <span>faheemsajjad65@gmail.com</span>
               </li>
             </ul>
           </div>

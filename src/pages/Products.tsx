@@ -1,33 +1,49 @@
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { PRODUCTS } from '@/src/data/siteData';
-import { ArrowRight, Filter, Search, Download } from 'lucide-react';
+import { ArrowRight, Search, Download } from 'lucide-react';
 import SEO from '@/src/components/SEO';
+import { useState, useMemo } from 'react';
+
+const CATEGORIES = ['All Materials', 'Sliders', 'Tape', 'Components', 'Coil'];
 
 export default function Products() {
+  const [activeCategory, setActiveCategory] = useState('All Materials');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredProducts = useMemo(() => {
+    return PRODUCTS.filter(product => {
+      const matchesCategory = activeCategory === 'All Materials' || product.category === activeCategory;
+      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           product.fullDescription.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
   return (
     <div className="pt-32 pb-24 bg-white">
       <SEO 
-        title="Industrial Materials Catalog" 
-        description="Browse our full range of zipper raw materials including yarn, monofilament, tapes, and metal components. Technical specs and bulk pricing available."
-        keywords="zipper materials catalog, industrial yarn, zipper tape supplier, metal zipper components, nylon monofilament"
+        title="Zipper Materials Catalog" 
+        description="Browse our full range of precision zipper materials including sliders, tapes, pin boxes, and nylon coils. Technical specs and bulk pricing available."
+        keywords="zipper materials catalog, zipper sliders, zipper tape supplier, pin box components, nylon coil raw material"
       />
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-4xl mb-16">
-          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">Industrial Materials <br /><span className="text-blue-600">Catalog</span></h1>
+          <h1 className="text-5xl md:text-6xl font-black text-slate-900 mb-6">Precision Zipper <br /><span className="text-blue-600">Materials Catalog</span></h1>
           <p className="text-xl text-slate-600 leading-relaxed">
-            Explore our comprehensive range of raw materials engineered specifically for zipper manufacturing. From high-tenacity yarns to precision metal components.
+            Explore our comprehensive range of raw materials engineered specifically for high-performance zipper manufacturing. From precision sliders to durable tapes.
           </p>
         </div>
 
         {/* Filter Bar */}
         <div className="flex flex-col md:flex-row gap-4 mb-12 items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-100">
           <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
-            {['All Materials', 'Polyester Yarn', 'Nylon Coil', 'Zipper Tape', 'Metal Components'].map((cat) => (
+            {CATEGORIES.map((cat) => (
               <button 
                 key={cat}
-                className={`px-6 py-2 rounded-xl font-bold text-sm whitespace-nowrap transition-all ${cat === 'All Materials' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-6 py-2 rounded-xl font-bold text-sm whitespace-nowrap transition-all ${activeCategory === cat ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
               >
                 {cat}
               </button>
@@ -38,6 +54,8 @@ export default function Products() {
             <input 
               type="text" 
               placeholder="Search materials..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             />
           </div>
@@ -45,12 +63,13 @@ export default function Products() {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {PRODUCTS.map((product, idx) => (
+          {filteredProducts.map((product, idx) => (
             <motion.div
               key={product.id}
+              layout
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1 }}
+              transition={{ delay: idx * 0.05 }}
               className="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all overflow-hidden flex flex-col"
             >
               <div className="h-64 overflow-hidden relative">
