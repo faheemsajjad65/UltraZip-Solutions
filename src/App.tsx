@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
@@ -43,12 +43,12 @@ export default function App() {
         
         {/* Sticky CTA for Mobile */}
         <div className="lg:hidden fixed bottom-6 left-6 right-6 z-40">
-          <a 
-            href="/contact" 
+          <Link 
+            to="/contact" 
             className="w-full bg-blue-700 text-white py-4 rounded-2xl font-bold text-lg shadow-2xl shadow-blue-700/40 flex items-center justify-center gap-2"
           >
             Request Quote
-          </a>
+          </Link>
         </div>
       </div>
     </Router>
