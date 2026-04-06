@@ -80,13 +80,21 @@ export default function Home() {
                   <p className="text-slate-600 text-sm mb-6 line-clamp-2">
                     {product.shortDescription}
                   </p>
-                  <Link 
-                    to={`/products/${product.id}`}
-                    className="inline-flex items-center gap-2 text-slate-900 font-bold text-sm hover:text-blue-600 transition-colors"
-                  >
-                    Technical Specs
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="flex items-center justify-between mt-auto">
+                    <Link 
+                      to={`/products/${product.id}`}
+                      className="inline-flex items-center gap-2 text-slate-900 font-bold text-sm hover:text-blue-600 transition-colors"
+                    >
+                      Technical Specs
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link 
+                      to={`/contact?product=${encodeURIComponent(product.name)}`}
+                      className="text-blue-600 font-bold text-sm hover:underline"
+                    >
+                      Request Quote
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             ))}

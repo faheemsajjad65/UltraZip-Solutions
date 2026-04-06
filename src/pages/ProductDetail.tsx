@@ -79,9 +79,12 @@ export default function ProductDetail() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <a href="#rfq" className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-xl shadow-blue-700/20">
+              <button 
+                onClick={() => document.getElementById('rfq')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-xl shadow-blue-700/20"
+              >
                 Request Bulk Quote
-              </a>
+              </button>
               <Link 
                 to={`/contact?product=${encodeURIComponent(product.name)}&type=sample`} 
                 className="bg-white border-2 border-blue-700 text-blue-700 hover:bg-blue-50 px-8 py-4 rounded-xl font-bold text-lg transition-all"

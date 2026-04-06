@@ -100,16 +100,24 @@ export default function Products() {
                   ))}
                 </div>
 
-                <div className="mt-auto flex gap-3">
+                <div className="mt-auto flex flex-col gap-3">
+                  <div className="flex gap-3">
+                    <Link 
+                      to={`/products/${product.id}`}
+                      className="flex-grow bg-slate-900 hover:bg-slate-800 text-white text-center py-3 rounded-xl font-bold transition-all"
+                    >
+                      View Details
+                    </Link>
+                    <button className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition-all" title="Download TDS">
+                      <Download className="w-5 h-5" />
+                    </button>
+                  </div>
                   <Link 
-                    to={`/products/${product.id}`}
-                    className="flex-grow bg-slate-900 hover:bg-slate-800 text-white text-center py-3 rounded-xl font-bold transition-all"
+                    to={`/contact?product=${encodeURIComponent(product.name)}`}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/10"
                   >
-                    View Details
+                    Request Quote
                   </Link>
-                  <button className="p-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition-all" title="Download TDS">
-                    <Download className="w-5 h-5" />
-                  </button>
                 </div>
               </div>
             </motion.div>
