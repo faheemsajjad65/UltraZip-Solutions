@@ -47,7 +47,11 @@ export default function ZipperStoryAssembly({ onComplete }: ZipperStoryAssemblyP
   const sliderY = (1 - progress) * ZIP_HEIGHT;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-slate-950 flex items-center justify-center overflow-hidden">
+    <motion.div 
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+      className="fixed inset-0 z-[200] bg-slate-950 flex items-center justify-center overflow-hidden"
+    >
       <div className="relative w-full max-w-lg h-[80vh] flex items-center justify-center">
         
         {/* Zipper Container */}
@@ -175,16 +179,7 @@ export default function ZipperStoryAssembly({ onComplete }: ZipperStoryAssemblyP
       </div>
 
       {/* Final Reveal Transition */}
-      <AnimatePresence>
-        {isComplete && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 z-[210] bg-white pointer-events-none"
-            transition={{ duration: 1, delay: 0.5 }}
-          />
-        )}
-      </AnimatePresence>
+      {/* Removed white flash to combine animations */}
 
       {/* Skip Button */}
       <button
@@ -194,6 +189,6 @@ export default function ZipperStoryAssembly({ onComplete }: ZipperStoryAssemblyP
         Skip Animation
         <div className="w-8 h-px bg-slate-700 group-hover:bg-white transition-colors" />
       </button>
-    </div>
+    </motion.div>
   );
 }
