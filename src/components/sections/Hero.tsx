@@ -1,12 +1,29 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, ShieldCheck, Globe, Zap } from 'lucide-react';
 import InquiryForm from './InquiryForm';
-import ZipperReveal from '../animations/ZipperReveal';
+import ZipperStoryAssembly from '../animations/ZipperStoryAssembly';
+
+// Global flag to track if the animation has played in the current session
+let hasPlayedAnimation = false;
 
 export default function Hero() {
+  const [isAssembled, setIsAssembled] = useState(hasPlayedAnimation);
+
+  const handleComplete = () => {
+    setIsAssembled(true);
+    hasPlayedAnimation = true;
+  };
+
   return (
-    <ZipperReveal>
+    <>
+      <AnimatePresence>
+        {!isAssembled && (
+          <ZipperStoryAssembly onComplete={handleComplete} />
+        )}
+      </AnimatePresence>
+
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-slate-950">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
@@ -22,9 +39,9 @@ export default function Hero() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
+              initial={hasPlayedAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+              animate={{ opacity: isAssembled ? 1 : 0, x: isAssembled ? 0 : -30 }}
+              transition={{ duration: 0.8, delay: hasPlayedAnimation ? 0 : 0.2 }}
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold mb-8 uppercase tracking-[0.2em]">
                 <Zap className="w-4 h-4 fill-current" />
@@ -80,9 +97,9 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
+              initial={hasPlayedAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              animate={{ opacity: isAssembled ? 1 : 0, y: isAssembled ? 0 : 30 }}
+              transition={{ duration: 0.8, delay: hasPlayedAnimation ? 0 : 0.4 }}
               className="hidden lg:block"
             >
               <InquiryForm />
@@ -90,6 +107,6 @@ export default function Hero() {
           </div>
         </div>
       </section>
-    </ZipperReveal>
-);
+    </>
+  );
 }
