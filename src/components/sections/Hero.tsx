@@ -38,9 +38,9 @@ export default function Hero() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={hasPlayedAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            animate={{ opacity: isAssembled ? 1 : 0, x: isAssembled ? 0 : -30 }}
-            transition={{ duration: 0.8, delay: hasPlayedAnimation ? 0 : 0.2 }}
+            initial={hasPlayedAnimation ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
           >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold mb-8 uppercase tracking-[0.2em]">
                 <Zap className="w-4 h-4 fill-current" />
@@ -96,9 +96,9 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              initial={hasPlayedAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              animate={{ opacity: isAssembled ? 1 : 0, y: isAssembled ? 0 : 30 }}
-              transition={{ duration: 0.8, delay: hasPlayedAnimation ? 0 : 0.4 }}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
               className="hidden lg:block"
             >
               <InquiryForm />
