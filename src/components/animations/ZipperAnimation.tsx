@@ -24,7 +24,7 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
       if (nextProgress < 1) {
         requestAnimationFrame(animate);
       } else {
-        setTimeout(() => setIsComplete(true), 500);
+        setIsComplete(true);
       }
     };
 
@@ -41,81 +41,143 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
   const HEIGHT = typeof window !== 'undefined' ? window.innerHeight : 1080;
   const CENTER_X = WIDTH / 2;
   
-  // Slider position
+  // Slider position with a slight vibration
   const sliderY = progress * HEIGHT;
+  const vibration = Math.sin(Date.now() / 50) * 1.5 * (1 - progress);
   
-  // V-Shape opening width at the top
-  const MAX_OPEN_WIDTH = WIDTH * 0.8;
-  const currentOpenWidth = MAX_OPEN_WIDTH; // Keep V shape constant, just move slider
+  // Opening width at the top - increased to ensure it fully clears the screen
+  const MAX_OPEN_WIDTH = WIDTH * 2.5;
+  
+  // SVG Paths for the tapes using a more natural curve
+  const getTapePaths = () => {
+    const bottomOffset = progress > 0.9 ? (progress - 0.9) * 10 * (WIDTH / 2) : 0;
+    const openWidth = MAX_OPEN_WIDTH;
+    
+    // Left Tape: Bottom -> Slider -> Top Left
+    // We use a quadratic curve for the opening part
+    const leftPath = `
+      M ${CENTER_X - bottomOffset},${HEIGHT} 
+      L ${CENTER_X},${sliderY} 
+      Q ${CENTER_X - openWidth * 0.1},${sliderY * 0.5} ${CENTER_X - openWidth / 2},0 
+      L 0,0 
+      L 0,${HEIGHT} 
+      Z
+    `;
+    
+    // Right Tape: Bottom -> Slider -> Top Right
+    const rightPath = `
+      M ${CENTER_X + bottomOffset},${HEIGHT} 
+      L ${CENTER_X},${sliderY} 
+      Q ${CENTER_X + openWidth * 0.1},${sliderY * 0.5} ${CENTER_X + openWidth / 2},0 
+      L ${WIDTH},0 
+      L ${WIDTH},${HEIGHT} 
+      Z
+    `;
+    
+    return { leftPath, rightPath };
+  };
 
-  // SVG Paths for the tapes
-  // Left Tape: Vertical from bottom to slider, then angled to top-left
-  const leftPath = `M ${CENTER_X},${HEIGHT} L ${CENTER_X},${sliderY} L ${CENTER_X - currentOpenWidth / 2},0 L 0,0 L 0,${HEIGHT} Z`;
-  
-  // Right Tape: Vertical from bottom to slider, then angled to top-right
-  const rightPath = `M ${CENTER_X},${HEIGHT} L ${CENTER_X},${sliderY} L ${CENTER_X + currentOpenWidth / 2},0 L ${WIDTH},0 L ${WIDTH},${HEIGHT} Z`;
+  const { leftPath, rightPath } = getTapePaths();
 
   return (
     <motion.div 
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
+      exit={{ opacity: 0, scale: 1.05 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="fixed inset-0 z-[200] overflow-hidden pointer-events-none"
     >
       <svg className="w-full h-full" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="tapeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#020617" />
+            <stop offset="50%" stopColor="#0f172a" />
+            <stop offset="100%" stopColor="#020617" />
+          </linearGradient>
+          <linearGradient id="metalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#e2e8f0" />
+            <stop offset="50%" stopColor="#94a3b8" />
+            <stop offset="100%" stopColor="#475569" />
+          </linearGradient>
+          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+            <feOffset dx="0" dy="2" result="offsetblur" />
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.5" />
+            </feComponentTransfer>
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Left Tape */}
         <path
           d={leftPath}
-          fill="#020617" // slate-950
-          stroke="#1e293b" // slate-800
-          strokeWidth="2"
+          fill="url(#tapeGradient)"
+          stroke="#1e293b"
+          strokeWidth="1"
         />
         
         {/* Right Tape */}
         <path
           d={rightPath}
-          fill="#020617" // slate-950
-          stroke="#1e293b" // slate-800
-          strokeWidth="2"
+          fill="url(#tapeGradient)"
+          stroke="#1e293b"
+          strokeWidth="1"
         />
 
         {/* Teeth along the edges */}
-        <g>
-          {[...Array(60)].map((_, i) => {
-            const y = (i / 59) * HEIGHT;
+        <g filter="url(#shadow)">
+          {[...Array(120)].map((_, i) => {
+            const y = (i / 119) * HEIGHT;
             const isAboveSlider = y < sliderY;
             
             let leftX = CENTER_X;
             let rightX = CENTER_X;
+            let rotation = 0;
             
             if (isAboveSlider) {
-              // Interpolate X based on the V-shape angled line
-              // The line goes from (CENTER_X, sliderY) to (CENTER_X - currentOpenWidth/2, 0)
-              const factor = (sliderY - y) / sliderY;
-              leftX = CENTER_X - factor * (currentOpenWidth / 2);
-              rightX = CENTER_X + factor * (currentOpenWidth / 2);
+              const t = (sliderY - y) / sliderY;
+              const openWidth = MAX_OPEN_WIDTH;
+              // Match the quadratic curve: Q CENTER_X - openWidth * 0.1, sliderY * 0.5, CENTER_X - openWidth / 2, 0
+              // Quadratic formula: (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
+              const p0 = CENTER_X;
+              const p1 = CENTER_X - openWidth * 0.1;
+              const p2 = CENTER_X - openWidth / 2;
+              leftX = Math.pow(1-t, 2) * p0 + 2 * (1-t) * t * p1 + Math.pow(t, 2) * p2;
+              
+              const rp1 = CENTER_X + openWidth * 0.1;
+              const rp2 = CENTER_X + openWidth / 2;
+              rightX = Math.pow(1-t, 2) * p0 + 2 * (1-t) * t * rp1 + Math.pow(t, 2) * rp2;
+              
+              rotation = t * 15; // Slight tilt as it opens
             }
 
             return (
               <React.Fragment key={i}>
                 {/* Left Tooth */}
                 <rect
-                  x={leftX - 8}
+                  x={leftX - 10}
                   y={y - 2}
-                  width="8"
-                  height="4"
-                  rx="1"
-                  fill="#334155"
-                  className={isAboveSlider ? "opacity-40" : "opacity-100"}
+                  width="10"
+                  height="5"
+                  rx="1.5"
+                  fill="#94a3b8"
+                  transform={`rotate(${-rotation}, ${leftX}, ${y})`}
+                  className={isAboveSlider ? "opacity-30" : "opacity-100"}
+                  style={{ stroke: '#475569', strokeWidth: 0.5 }}
                 />
                 {/* Right Tooth */}
                 <rect
                   x={rightX}
-                  y={y + 2}
-                  width="8"
-                  height="4"
-                  rx="1"
-                  fill="#334155"
-                  className={isAboveSlider ? "opacity-40" : "opacity-100"}
+                  y={y + 1}
+                  width="10"
+                  height="5"
+                  rx="1.5"
+                  fill="#94a3b8"
+                  transform={`rotate(${rotation}, ${rightX}, ${y})`}
+                  className={isAboveSlider ? "opacity-30" : "opacity-100"}
+                  style={{ stroke: '#475569', strokeWidth: 0.5 }}
                 />
               </React.Fragment>
             );
@@ -123,18 +185,28 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
         </g>
 
         {/* Slider */}
-        <g transform={`translate(${CENTER_X}, ${sliderY})`}>
-          <rect x="-14" y="-18" width="28" height="36" rx="4" fill="#cbd5e1" stroke="#f1f5f9" strokeWidth="1" />
-          <rect x="-10" y="-12" width="20" height="24" rx="2" fill="#94a3b8" />
+        <g transform={`translate(${CENTER_X + vibration}, ${sliderY})`} filter="url(#shadow)">
+          {/* Slider Body */}
+          <path 
+            d="M -18,-22 L 18,-22 L 14,18 L -14,18 Z" 
+            fill="url(#metalGradient)" 
+            stroke="#475569" 
+            strokeWidth="1" 
+          />
+          <rect x="-12" y="-16" width="24" height="28" rx="2" fill="#64748b" opacity="0.3" />
+          
+          {/* Puller Attachment */}
+          <rect x="-6" y="-26" width="12" height="8" rx="2" fill="#475569" />
           
           {/* Puller */}
           <motion.g
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            style={{ originY: -12 }}
+            animate={{ rotate: [0, 8, -8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            style={{ originY: -22 }}
           >
-            <rect x="-5" y="0" width="10" height="40" rx="4" fill="#94a3b8" stroke="#e2e8f0" strokeWidth="1" />
-            <circle cx="0" cy="32" r="3" fill="#64748b" />
+            <rect x="-7" y="-22" width="14" height="45" rx="4" fill="url(#metalGradient)" stroke="#475569" strokeWidth="1" />
+            <rect x="-3" y="5" width="6" height="25" rx="2" fill="#1e293b" opacity="0.4" />
+            <circle cx="0" cy="35" r="4" fill="#1e293b" opacity="0.6" />
           </motion.g>
         </g>
       </svg>
