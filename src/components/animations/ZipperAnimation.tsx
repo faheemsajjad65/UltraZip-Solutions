@@ -11,7 +11,7 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
   const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    const duration = 800; // Reduced from 2000ms to 800ms for a snappier feel
+    const duration = 2000; // 2 seconds for a smooth reveal
     const startTime = Date.now();
 
     const animate = () => {
@@ -24,7 +24,7 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
       if (nextProgress < 1) {
         requestAnimationFrame(animate);
       } else {
-        setIsComplete(true);
+        setTimeout(() => setIsComplete(true), 500);
       }
     };
 
@@ -37,101 +37,107 @@ export default function ZipperAnimation({ onComplete }: ZipperAnimationProps) {
     }
   }, [isComplete, onComplete]);
 
-  // Animation constants
-  const ZIP_HEIGHT = 600;
-  const CLOSED_GAP = 4;
+  const WIDTH = typeof window !== 'undefined' ? window.innerWidth : 1920;
+  const HEIGHT = typeof window !== 'undefined' ? window.innerHeight : 1080;
+  const CENTER_X = WIDTH / 2;
   
-  // Calculate slider Y position (from bottom to top)
-  const sliderY = (1 - progress) * ZIP_HEIGHT;
+  // Slider position
+  const sliderY = progress * HEIGHT;
+  
+  // V-Shape opening width at the top
+  const MAX_OPEN_WIDTH = WIDTH * 0.8;
+  const currentOpenWidth = MAX_OPEN_WIDTH; // Keep V shape constant, just move slider
+
+  // SVG Paths for the tapes
+  // Left Tape: Vertical from bottom to slider, then angled to top-left
+  const leftPath = `M ${CENTER_X},${HEIGHT} L ${CENTER_X},${sliderY} L ${CENTER_X - currentOpenWidth / 2},0 L 0,0 L 0,${HEIGHT} Z`;
+  
+  // Right Tape: Vertical from bottom to slider, then angled to top-right
+  const rightPath = `M ${CENTER_X},${HEIGHT} L ${CENTER_X},${sliderY} L ${CENTER_X + currentOpenWidth / 2},0 L ${WIDTH},0 L ${WIDTH},${HEIGHT} Z`;
 
   return (
     <motion.div 
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-0 z-[200] bg-slate-950 flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[200] overflow-hidden pointer-events-none"
     >
-      <div className="relative w-full max-w-lg h-[80vh] flex items-center justify-center">
+      <svg className="w-full h-full" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none">
+        {/* Left Tape */}
+        <path
+          d={leftPath}
+          fill="#020617" // slate-950
+          stroke="#1e293b" // slate-800
+          strokeWidth="2"
+        />
         
-        {/* Zipper Container */}
-        <div className="relative w-full h-[600px] flex justify-center">
+        {/* Right Tape */}
+        <path
+          d={rightPath}
+          fill="#020617" // slate-950
+          stroke="#1e293b" // slate-800
+          strokeWidth="2"
+        />
+
+        {/* Teeth along the edges */}
+        <g>
+          {[...Array(60)].map((_, i) => {
+            const y = (i / 59) * HEIGHT;
+            const isAboveSlider = y < sliderY;
+            
+            let leftX = CENTER_X;
+            let rightX = CENTER_X;
+            
+            if (isAboveSlider) {
+              // Interpolate X based on the V-shape angled line
+              // The line goes from (CENTER_X, sliderY) to (CENTER_X - currentOpenWidth/2, 0)
+              const factor = (sliderY - y) / sliderY;
+              leftX = CENTER_X - factor * (currentOpenWidth / 2);
+              rightX = CENTER_X + factor * (currentOpenWidth / 2);
+            }
+
+            return (
+              <React.Fragment key={i}>
+                {/* Left Tooth */}
+                <rect
+                  x={leftX - 8}
+                  y={y - 2}
+                  width="8"
+                  height="4"
+                  rx="1"
+                  fill="#334155"
+                  className={isAboveSlider ? "opacity-40" : "opacity-100"}
+                />
+                {/* Right Tooth */}
+                <rect
+                  x={rightX}
+                  y={y + 2}
+                  width="8"
+                  height="4"
+                  rx="1"
+                  fill="#334155"
+                  className={isAboveSlider ? "opacity-40" : "opacity-100"}
+                />
+              </React.Fragment>
+            );
+          })}
+        </g>
+
+        {/* Slider */}
+        <g transform={`translate(${CENTER_X}, ${sliderY})`}>
+          <rect x="-14" y="-18" width="28" height="36" rx="4" fill="#cbd5e1" stroke="#f1f5f9" strokeWidth="1" />
+          <rect x="-10" y="-12" width="20" height="24" rx="2" fill="#94a3b8" />
           
-          {/* Left Tape */}
-          <div 
-            className="absolute h-full w-20 bg-slate-900 border-r-2 border-slate-800 shadow-2xl"
-            style={{ right: '50%', marginRight: CLOSED_GAP / 2 }}
+          {/* Puller */}
+          <motion.g
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            style={{ originY: -12 }}
           >
-            {/* Left Teeth */}
-            <div className="absolute right-0 h-full w-4 flex flex-col justify-around py-2">
-              {[...Array(40)].map((_, i) => {
-                const y = (i / 39) * ZIP_HEIGHT;
-                const isZipped = y > sliderY;
-                return (
-                  <motion.div
-                    key={`left-tooth-${i}`}
-                    className="w-4 h-1.5 bg-slate-700 rounded-sm border border-slate-600"
-                    animate={{ opacity: isZipped ? 1 : 0.3, x: isZipped ? 0 : -5 }}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Tape */}
-          <div 
-            className="absolute h-full w-20 bg-slate-900 border-l-2 border-slate-800 shadow-2xl"
-            style={{ left: '50%', marginLeft: CLOSED_GAP / 2 }}
-          >
-            {/* Right Teeth */}
-            <div className="absolute left-0 h-full w-4 flex flex-col justify-around py-2">
-              {[...Array(40)].map((_, i) => {
-                const y = (i / 39) * ZIP_HEIGHT + 4;
-                const isZipped = y > sliderY;
-                return (
-                  <motion.div
-                    key={`right-tooth-${i}`}
-                    className="w-4 h-1.5 bg-slate-700 rounded-sm border border-slate-600 translate-y-1"
-                    animate={{ opacity: isZipped ? 1 : 0.3, x: isZipped ? 0 : 5 }}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Slider */}
-          <motion.div 
-            style={{ top: sliderY, left: '50%', x: '-50%', y: '-50%' }}
-            className="absolute z-50"
-          >
-            <div className="relative w-14 h-18 bg-slate-300 rounded-lg border-2 border-slate-100 shadow-2xl flex flex-col items-center">
-              <div className="w-8 h-10 bg-slate-400 rounded-md mt-2 border border-slate-200" />
-              {/* Puller */}
-              <motion.div 
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 w-6 h-20 bg-slate-400 rounded-full border-2 border-slate-200 shadow-xl origin-top"
-              >
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-3 h-10 bg-slate-500/20 rounded-full" />
-              </motion.div>
-            </div>
-          </motion.div>
-
-        </div>
-
-        {/* Logo Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
-          <Logo light className="scale-[3]" />
-        </div>
-
-      </div>
-
-      {/* Skip Button */}
-      <button
-        onClick={onComplete}
-        className="absolute bottom-10 right-10 z-[250] text-slate-500 hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 group"
-      >
-        Skip Animation
-        <div className="w-8 h-px bg-slate-700 group-hover:bg-white transition-colors" />
-      </button>
+            <rect x="-5" y="0" width="10" height="40" rx="4" fill="#94a3b8" stroke="#e2e8f0" strokeWidth="1" />
+            <circle cx="0" cy="32" r="3" fill="#64748b" />
+          </motion.g>
+        </g>
+      </svg>
     </motion.div>
   );
 }
